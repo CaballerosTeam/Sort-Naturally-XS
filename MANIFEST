@@ -1,0 +1,13 @@
+Changes
+Makefile.PL
+MANIFEST
+ppport.h
+README
+XS.xs
+t/Sort-Naturally-XS.t
+fallback/const-c.inc
+fallback/const-xs.inc
+lib/Sort/Naturally/XS.pm
+src/Makefile.PL
+src/libnsort.c
+src/libnsort.h
