@@ -1,4 +1,4 @@
-Sort-Naturally-XS version 0.01
+Sort-Naturally-XS version 0.8.0
 ==============================
 
 The README is used to introduce the module and provide instructions on
@@ -31,7 +31,7 @@ COPYRIGHT AND LICENCE
 
 Put the correct copyright and licence information here.
 
-Copyright (C) 2016 by oper
+Copyright (C) 2016 by Sergey Yurzin
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.2 or,

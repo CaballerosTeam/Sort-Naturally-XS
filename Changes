@@ -1,6 +1,8 @@
 Revision history for Perl extension Sort::Naturally::XS.
 
-0.01  Sat Oct 22 21:59:46 2016
+0.1.0  Sat Oct 22 21:59:46 2016
 	- original version; created by h2xs 1.23 with options
 		-O -n Sort::Naturally::XS ./Sort-Naturally-XS/src/nsort.h
 
+0.8.0  Wed Oct 26 22:40:00 2016
+    - beta implemented; initial commit

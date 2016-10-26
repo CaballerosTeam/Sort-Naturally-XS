@@ -9,5 +9,5 @@ fallback/const-c.inc
 fallback/const-xs.inc
 lib/Sort/Naturally/XS.pm
 src/Makefile.PL
-src/libnsort.c
-src/libnsort.h
+src/nsort.c
+src/nsort.h
