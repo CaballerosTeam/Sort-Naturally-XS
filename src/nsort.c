@@ -6,7 +6,7 @@
 
 char *get_next_chunk(const char *, int *, bool *);
 
-int nsort(const char *a, const char *b) {
+int ncmp(const char *a, const char *b) {
     int len_a = strlen(a);
     int len_b = strlen(b);
     int offset_a = 0;

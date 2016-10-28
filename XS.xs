@@ -18,7 +18,7 @@ const char *    T_PV
 END
 
 int
-nsort(arg_a, arg_b)
+ncmp(arg_a, arg_b)
         const char *    arg_a
         const char *    arg_b
     OUTPUT:

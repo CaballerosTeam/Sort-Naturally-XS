@@ -6,9 +6,73 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="Header Search Paths">
-        <CLASSES />
-        <SOURCES />
+      <library>
+        <CLASSES>
+          <root url="file:///usr/lib/perl5/site_perl/5.20.1/x86_64-linux-thread-multi" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/perl5/site_perl/5.20.1/x86_64-linux-thread-multi" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file:///usr/lib/perl5/site_perl/5.20.1" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/perl5/site_perl/5.20.1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file:///usr/lib/perl5/vendor_perl/5.20.1/x86_64-linux-thread-multi" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/perl5/vendor_perl/5.20.1/x86_64-linux-thread-multi" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file:///usr/lib/perl5/vendor_perl/5.20.1" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/perl5/vendor_perl/5.20.1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file:///usr/lib/perl5/5.20.1/x86_64-linux-thread-multi" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/perl5/5.20.1/x86_64-linux-thread-multi" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file:///usr/lib/perl5/5.20.1" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/perl5/5.20.1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file:///usr/lib/perl5/site_perl" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/perl5/site_perl" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
