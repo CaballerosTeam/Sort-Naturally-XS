@@ -15,6 +15,7 @@ INCLUDE: const-xs.inc
 
 TYPEMAP: <<END
 const char *    T_PV
+charArray *     T_ARRAY
 END
 
 int
@@ -23,3 +24,17 @@ ncmp(arg_a, arg_b)
         const char *    arg_b
     OUTPUT:
         RETVAL
+
+
+charArray *
+nsort(array, ...)
+        charArray *     array
+    PREINIT:
+        int size_RETVAL;
+    CODE:
+        size_RETVAL = ix_array;
+        RETVAL = array;
+    OUTPUT:
+        RETVAL
+    CLEANUP:
+        XSRETURN(size_RETVAL);

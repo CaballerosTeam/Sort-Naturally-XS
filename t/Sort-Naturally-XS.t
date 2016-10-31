@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 BEGIN { use_ok('Sort::Naturally::XS') };
 
@@ -50,3 +50,6 @@ my $ar2_mixed_strong__expexted = ['H4', 'H5', 'H8', 'HEX', 'M4', 'M5', 'M6', 'M7
 	'T40', 'T45', 'T47', 'T50', 'T55', 'T60', 'T70', 'TT6', 'TT7', 'TT8', 'TT9', 'TT10', 'TT15', 'TT20', 'TT25', 'TT27',
 	'TT30', 'TT40', 'TT45', 'TT50', 'TT55', 'TT60', 'TT70', 'TX', 'XZN', 'держатель', 'набор'];
 ok(eq_array($ar2_mixed_strong__expexted, [sort ncmp @{$ar_mixed_strong}]));
+
+
+ok(eq_array([1..5], [Sort::Naturally::XS::nsort(1..5)]));

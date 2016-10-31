@@ -6,6 +6,8 @@
 
 char *get_next_chunk(const char *, int *, bool *);
 
+charArray *charArrayPtr(int);
+
 int ncmp(const char *a, const char *b) {
     int len_a = strlen(a);
     int len_b = strlen(b);
@@ -81,4 +83,9 @@ char *get_next_chunk(const char *raw, int *offset, bool *is_digit) {
     chunk[len] = '\0';
     *offset += len;
     return chunk;
+}
+
+charArray *charArrayPtr(int num) {
+    charArray *array = malloc(num * sizeof(charArray));
+    return array;
 }
