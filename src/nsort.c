@@ -31,8 +31,6 @@ int ncmp(const char *a, const char *b) {
             if (is_last_chunk_a_digit) {
                 chunk_a_int = atoi(chunk_a);
                 chunk_b_int = atoi(chunk_b);
-//                sscanf(chunk_a, "%d", &chunk_a_int);
-//                sscanf(chunk_b, "%d", &chunk_b_int);
                 result = (chunk_a_int < chunk_b_int) ? -1 : (chunk_a_int > chunk_b_int);
             } else {
                 result = strcmp(chunk_a, chunk_b);
