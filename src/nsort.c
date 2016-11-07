@@ -89,3 +89,7 @@ charArray *charArrayPtr(int num) {
     charArray *array = malloc(num * sizeof(charArray));
     return array;
 }
+
+void nsort(charArray * ar, size_t len) {
+    printf("do nothing\n");
+}

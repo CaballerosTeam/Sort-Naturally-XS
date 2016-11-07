@@ -33,6 +33,7 @@ nsort(array, ...)
         int size_RETVAL;
     CODE:
         size_RETVAL = ix_array;
+        nsort(array, ix_array);
         RETVAL = array;
     OUTPUT:
         RETVAL
