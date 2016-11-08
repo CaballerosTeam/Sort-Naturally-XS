@@ -23,9 +23,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw(
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-our @EXPORT = qw(
-	ncmp
-);
+our @EXPORT = qw(ncmp nsort);
 
 our $VERSION = '0.3.0';
 

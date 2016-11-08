@@ -9,6 +9,14 @@
 
 #include "const-c.inc"
 
+static I32
+S_sv_ncmp(pTHX_ SV *a, SV *b)
+{
+    const char *ia = (const char *) SvPVX(a);
+    const char *ib = (const char *) SvPVX(b);
+    return ncmp(ia, ib);
+}
+
 MODULE = Sort::Naturally::XS		PACKAGE = Sort::Naturally::XS		
 
 INCLUDE: const-xs.inc
@@ -25,17 +33,14 @@ ncmp(arg_a, arg_b)
     OUTPUT:
         RETVAL
 
-
-charArray *
-nsort(array, ...)
-        charArray *     array
+void
+nsort(ar_ref)
+        SV *    ar_ref;
     PREINIT:
-        int size_RETVAL;
+        AV *    ar;
     CODE:
-        size_RETVAL = ix_array;
-        nsort(array, ix_array);
-        RETVAL = array;
-    OUTPUT:
-        RETVAL
-    CLEANUP:
-        XSRETURN(size_RETVAL);
+        if (!SvRV(ar_ref) || SvTYPE(SvRV(ar_ref)) != SVt_PVAV) {
+            croak("Not an ARRAY ref");
+        }
+        ar = (AV *) SvRV(ar_ref);
+        sortsv(AvARRAY(ar), av_top_index(ar)+1, S_sv_ncmp);
