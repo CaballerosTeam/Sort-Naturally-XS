@@ -101,3 +101,5 @@ nytprof.out
 *.su
 
 CMakeLists.txt
+
+_Deparsed_XSubs.pm
