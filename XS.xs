@@ -34,13 +34,21 @@ ncmp(arg_a, arg_b)
         RETVAL
 
 void
-nsort(ar_ref)
-        SV *    ar_ref;
-    PREINIT:
-        AV *    ar;
+nsort(...)
+    PROTOTYPE: @
     CODE:
-        if (!SvRV(ar_ref) || SvTYPE(SvRV(ar_ref)) != SVt_PVAV) {
-            croak("Not an ARRAY ref");
+        if (!items) {
+            XSRETURN_UNDEF;
         }
-        ar = (AV *) SvRV(ar_ref);
-        sortsv(AvARRAY(ar), av_top_index(ar)+1, S_sv_ncmp);
+        AV * array = newAV();
+        int i;
+        for (i=0; i<items; i++) {
+            SV *item = ST(i);
+            av_push(array, item);
+        }
+        sortsv(AvARRAY(array), items, S_sv_ncmp);
+        for (i=0; i<items; i++) {
+            SV *item = av_shift(array);
+            ST(i) = item;
+        }
+        XSRETURN(items);
