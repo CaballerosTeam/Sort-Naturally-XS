@@ -14,7 +14,7 @@ To install this module type the following:
 
 ## SYNOPSIS
 
-```
+```perl
   use Sort::Naturally::XS;
 
   my @mixed_list = qw/test21 test20 test10 test11 test2 test1/;
