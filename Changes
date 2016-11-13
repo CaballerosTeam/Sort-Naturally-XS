@@ -9,3 +9,6 @@ Revision history for Perl extension Sort::Naturally::XS.
 
 0.3.0  Fri Oct 26 18:25:00 2016
     - support Sort::Naturally API, add ncmp subroutine
+
+0.4.0 Sun Nov 13 22:17:00 2016
+    - add nsort subroutine and minimal documentation
