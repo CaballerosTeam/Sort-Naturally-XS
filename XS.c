@@ -314,14 +314,14 @@ XS_EUPXS(XS_Sort__Naturally__XS_nsort)
         AV * array = newAV();
         int i;
         for (i=0; i<items; i++) {
-            SV *item = ST(i);
-            av_push(array, item);
+            av_push(array, ST(i));
         }
         sortsv(AvARRAY(array), items, S_sv_ncmp);
         for (i=0; i<items; i++) {
-            SV *item = av_shift(array);
-            ST(i) = item;
+            ST(i) = av_shift(array);
         }
+        av_undef(array);
+        SvREFCNT_dec(array);
         XSRETURN(items);
 #line 327 "XS.c"
     }
