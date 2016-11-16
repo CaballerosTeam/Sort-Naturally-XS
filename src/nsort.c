@@ -20,20 +20,13 @@ int ncmp(const char *a, const char *b) {
     int chunk_a_int;
     int chunk_b_int;
     int result = 0;
-    char first_symbol_a = a[0];
-    char first_symbol_b = b[0];
 
-//    printf("%c (%d) - %c (%d)\n", first_symbol_a, first_symbol_b);
-
-    if (
-        isalpha(first_symbol_a)
-        && first_symbol_a > 0
-        && first_symbol_a < 256
-        && isalpha(first_symbol_b)
-        && first_symbol_b > 0
-        && first_symbol_b < 256
-    ) {
-        result = (first_symbol_a < first_symbol_b) ? -1 : (first_symbol_a > first_symbol_b);
+    if (isalpha(a[0]) && isalpha(b[0])) {
+        result = (a[0] < b[0]) ? -1 : (a[0] > b[0]);
+    } else if (isalpha(a[0]) && isdigit(b[0])) {
+        result = 1;
+    } else if (isdigit(a[0]) && isalpha(b[0])) {
+        result = -1;
     }
 
     if (result == 0) {

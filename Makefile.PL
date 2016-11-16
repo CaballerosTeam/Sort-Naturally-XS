@@ -15,7 +15,7 @@ WriteMakefile(
 	# Un-comment this if you add C files to link with later:
 	# OBJECT            => '$(O_FILES)', # link all the C files too
 	MYEXTLIB     => 'src/libnsort$(LIB_EXT)',
-	OPTIMIZE     => '-g',
+	OPTIMIZE     => '-O3',
 );
 if (eval {
 	require ExtUtils::Constant;
