@@ -20,38 +20,58 @@ int ncmp(const char *a, const char *b) {
     int chunk_a_int;
     int chunk_b_int;
     int result = 0;
+    char first_symbol_a = a[0];
+    char first_symbol_b = b[0];
 
-    while (offset_a != len_a && offset_b != len_b) {
-        chunk_a = get_next_chunk(a, &offset_a, &is_digit_a);
-        chunk_b = get_next_chunk(b, &offset_b, &is_digit_b);
-        is_last_chunk_a_digit = !is_digit_a;
-        is_last_chunk_b_digit = !is_digit_b;
+//    printf("%c (%d) - %c (%d)\n", first_symbol_a, first_symbol_b);
 
-        if (is_last_chunk_a_digit == is_last_chunk_b_digit) {
-            if (is_last_chunk_a_digit) {
-                chunk_a_int = atoi(chunk_a);
-                chunk_b_int = atoi(chunk_b);
-                result = (chunk_a_int < chunk_b_int) ? -1 : (chunk_a_int > chunk_b_int);
+    if (
+        isalpha(first_symbol_a)
+        && first_symbol_a > 0
+        && first_symbol_a < 256
+        && isalpha(first_symbol_b)
+        && first_symbol_b > 0
+        && first_symbol_b < 256
+    ) {
+        result = (first_symbol_a < first_symbol_b) ? -1 : (first_symbol_a > first_symbol_b);
+    }
+
+    if (result == 0) {
+        offset_a = 1;
+        offset_b = 1;
+
+        while (offset_a != len_a && offset_b != len_b) {
+            chunk_a = get_next_chunk(a, &offset_a, &is_digit_a);
+            chunk_b = get_next_chunk(b, &offset_b, &is_digit_b);
+            is_last_chunk_a_digit = !is_digit_a;
+            is_last_chunk_b_digit = !is_digit_b;
+
+            if (is_last_chunk_a_digit == is_last_chunk_b_digit) {
+                if (is_last_chunk_a_digit) {
+                    chunk_a_int = atoi(chunk_a);
+                    chunk_b_int = atoi(chunk_b);
+                    result = (chunk_a_int < chunk_b_int) ? -1 : (chunk_a_int > chunk_b_int);
+                } else {
+                    result = strcmp(chunk_a, chunk_b);
+                }
             } else {
-                result = strcmp(chunk_a, chunk_b);
+                if (is_last_chunk_a_digit) {
+                    result = -1;
+                } else {
+                    result = 1;
+                }
             }
-        } else {
-            if (is_last_chunk_a_digit) {
+
+            free(chunk_a);
+            free(chunk_b);
+
+            if (result != 0) {
+                break;
+            } else if (offset_a == len_a) {
                 result = -1;
-            } else {
+            } else if (offset_b == len_b) {
                 result = 1;
             }
-        }
-
-        free(chunk_a);
-        free(chunk_b);
-
-        if (result != 0) {
-            break;
-        } else if (offset_a == len_a) {
-            result = -1;
-        } else if (offset_b == len_b) {
-            result = 1;
         }
     }
 
