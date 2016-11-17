@@ -12,7 +12,7 @@ our @ISA = qw(Exporter);
 
 our @EXPORT = qw(ncmp nsort);
 
-our $VERSION = '0.4.0';
+our $VERSION = '0.5.0';
 
 require XSLoader;
 XSLoader::load('Sort::Naturally::XS', $VERSION);
