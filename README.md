@@ -41,7 +41,8 @@ There are differences in comparison with the Sort::Naturally module.
 
 ## SEE ALSO
 
-link to CPAN
+* [module on PrePAN](http://prepan.org/module/nYcMhBVby72)
+* coming soon on CPAN
 
 ## AUTHOR
 
