@@ -33,4 +33,11 @@ my $ar_mixed_strong__expected = ['H4', 'H5', 'H8', 'HEX', 'M4', 'M5', 'M6', 'M7'
 	'TT30', 'TT40', 'TT45', 'TT50', 'TT55', 'TT60', 'TT70', 'TX', 'XZN', 'держатель', 'набор'];
 ok(eq_array($ar_mixed_strong__expected, [nsort(@{$ar_mixed_strong})]), 'CCXX test');
 
+# unicode test
+my $ar_mixed_utf8 = [qw/Як-100 Ка-8 Ми-20 Ка-10 Ка-26 Ка-15 Ка-25 Ми-4 Ми-6 Ми-8 Ка-31 Ми-14 Ми-24 Ка-18 Ка-22 Ми-26
+	Ми-30 Ми-171 Як-24 Як-60 Ка-27 Ка-29 Ка-32 Ка-126 Ми-10 Ми-1/];
+my $ar_mixed_utf8__expected = [qw/Ка-8 Ка-10 Ка-15 Ка-18 Ка-22 Ка-25 Ка-26 Ка-27 Ка-29 Ка-31 Ка-32 Ка-126 Ми-1 Ми-4 Ми-6
+	Ми-8 Ми-10 Ми-14 Ми-20 Ми-24 Ми-26 Ми-30 Ми-171 Як-24 Як-60 Як-100/];
+ok(eq_array($ar_mixed_utf8__expected, [sort ncmp @{$ar_mixed_utf8}]), 'UTF-8 test');
+
 done_testing();
