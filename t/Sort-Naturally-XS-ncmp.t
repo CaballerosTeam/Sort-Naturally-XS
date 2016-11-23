@@ -25,7 +25,7 @@ ok(eq_array($ar_mixed_simple__expected, [sort ncmp @{$ar_mixed_simple}]), 'Mixed
 
 # Sort::Naturally example
 my $ar_mixed_example = [qw/foo12a foo12z foo13a foo 14 9x foo12 fooa foolio Foolio Foo12a/];
-my $ar_mixed_example__expected = [qw/14 9x Foo12a Foolio foo foo12 foo12a foo12z foo13a fooa foolio/];
+my $ar_mixed_example__expected = [qw/9x 14 Foo12a Foolio foo foo12 foo12a foo12z foo13a fooa foolio/];
 ok(eq_array($ar_mixed_example__expected, [sort {ncmp($a, $b)} @{$ar_mixed_example}]), 'Sort::Naturally example');
 
 # CCXX-2 test
