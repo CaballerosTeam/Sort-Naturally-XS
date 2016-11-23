@@ -11,6 +11,13 @@ my $ar_digit = [reverse(map $_ x 2, (1..10))];
 my $ar_digit__expected = [reverse(@{$ar_digit})];
 ok(eq_array($ar_digit__expected, [sort ncmp @{$ar_digit}]), 'Digit only sort');
 
+# CCXX-1 test
+my $ar_mostly_digit = [qw/1100х1400 2000х2200 1400х2050 2200х2400 1500х2000 2200х2600 1720х2050 2400х2400 1800х2200
+	2400х2600/];
+my $ar_mostly_digit__expected = [qw/1100х1400 1400х2050 1500х2000 1720х2050 1800х2200 2000х2200 2200х2400 2200х2600
+	2400х2400 2400х2600/];
+ok(eq_array($ar_mostly_digit__expected, [sort ncmp @{$ar_mostly_digit}]), 'Dimensions sort');
+
 my $ar_mixed_simple = [qw/test21 test20 test10 test11 test2 test1/];
 my $ar_mixed_simple__expected = [qw/test1 test2 test10 test11 test20 test21/];
 ok(eq_array($ar_mixed_simple__expected, [sort ncmp @{$ar_mixed_simple}]), 'Mixed sort');
@@ -20,7 +27,7 @@ my $ar_mixed_example = [qw/foo12a foo12z foo13a foo 14 9x foo12 fooa foolio Fool
 my $ar_mixed_example__expected = [qw/14 9x Foo12a Foolio foo foo12 foo12a foo12z foo13a fooa foolio/];
 ok(eq_array($ar_mixed_example__expected, [sort {ncmp($a, $b)} @{$ar_mixed_example}]), 'Sort::Naturally example');
 
-# CCXX test
+# CCXX-2 test
 my $ar_mixed_strong = ['H4', 'T25', 'H5', 'T27', 'H8', 'T30', 'HEX', 'T35', 'M10', 'T4', 'M12', 'T40', 'M13', 'T45',
 	'M14', 'T47', 'M16', 'T5', 'M4', 'T50', 'M5', 'T55', 'M6', 'T6', 'M7', 'T60', 'M8', 'T7', 'M9', 'T70', 'Ph0', 'T8',
 	'Ph1', 'T9', 'Ph2', 'TT10', 'Ph3', 'TT15', 'Ph4', 'TT20', 'Pz0', 'TT25', 'Pz1', 'TT27', 'Pz2', 'TT30', 'Pz3', 'TT40',

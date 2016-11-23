@@ -15,24 +15,25 @@ int ncmp(const char *a, const char *b) {
     bool is_digit_b = NULL;
     bool is_last_chunk_a_digit = NULL;
     bool is_last_chunk_b_digit = NULL;
+    bool is_fist_char_a_alpha = isalpha(a[0]);
+    bool is_fist_char_b_alpha = isalpha(b[0]);
     char *chunk_a;
     char *chunk_b;
     int chunk_a_int;
     int chunk_b_int;
     int result = 0;
 
-    if (isalpha(a[0]) && isalpha(b[0])) {
+    if (is_fist_char_a_alpha && is_fist_char_b_alpha) {
+        offset_a = 1;
+        offset_b = 1;
         result = (a[0] < b[0]) ? -1 : (a[0] > b[0]);
-    } else if (isalpha(a[0]) && isdigit(b[0])) {
+    } else if (is_fist_char_a_alpha && isdigit(b[0])) {
         result = 1;
-    } else if (isdigit(a[0]) && isalpha(b[0])) {
+    } else if (isdigit(a[0]) && is_fist_char_b_alpha) {
         result = -1;
     }
 
     if (result == 0) {
-        offset_a = 1;
-        offset_b = 1;
-
         while (offset_a != len_a && offset_b != len_b) {
             chunk_a = get_next_chunk(a, &offset_a, &is_digit_a);
             chunk_b = get_next_chunk(b, &offset_b, &is_digit_b);
