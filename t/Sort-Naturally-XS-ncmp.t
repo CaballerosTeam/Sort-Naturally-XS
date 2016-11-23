@@ -14,9 +14,9 @@ ok(eq_array($ar_digit__expected, [sort ncmp @{$ar_digit}]), 'Digit only sort');
 
 # CCXX-1 test
 my $ar_mostly_digit = [qw/1100х1400 2000х2200 1400х2050 2200х2400 1500х2000 2200х2600 1720х2050 2400х2400 1800х2200
-	2400х2600/];
+    2400х2600/];
 my $ar_mostly_digit__expected = [qw/1100х1400 1400х2050 1500х2000 1720х2050 1800х2200 2000х2200 2200х2400 2200х2600
-	2400х2400 2400х2600/];
+    2400х2400 2400х2600/];
 ok(eq_array($ar_mostly_digit__expected, [sort ncmp @{$ar_mostly_digit}]), 'Dimensions sort');
 
 my $ar_mixed_simple = [qw/test21 test20 test10 test11 test2 test1/];
@@ -52,5 +52,10 @@ ok(eq_array($ar_mixed_utf8__expected, [sort ncmp @{$ar_mixed_utf8}]), 'UTF-8 tes
 my $ar_mixed_cp1251 = [map {Encode::from_to($_, 'utf8', 'cp1251'); $_;} @{$ar_mixed_utf8}];
 my $ar_mixed_cp1251__expected = [map {Encode::from_to($_, 'utf8', 'cp1251'); $_;} @{$ar_mixed_utf8__expected}];
 ok(eq_array($ar_mixed_cp1251__expected, [sort ncmp @{$ar_mixed_cp1251}]), 'WINDOWS-1251 test');
+
+# locale test
+my $ar_local = [qw/и й е ё/];
+my $ar_local__expected = [qw/е ё и й/];
+ok(eq_array($ar_local__expected, [sort ncmp @{$ar_local}]), 'Locale support');
 
 done_testing();
