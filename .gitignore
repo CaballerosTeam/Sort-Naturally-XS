@@ -9,6 +9,9 @@
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/deployment.xml
+.idea/webServers.xml
+.idea/perl5local.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
@@ -103,3 +106,4 @@ nytprof.out
 CMakeLists.txt
 
 _Deparsed_XSubs.pm
+t/local/

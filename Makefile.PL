@@ -1,4 +1,4 @@
-use 5.018002;
+use 5.010001;
 use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
@@ -15,7 +15,8 @@ WriteMakefile(
 	# Un-comment this if you add C files to link with later:
 	# OBJECT            => '$(O_FILES)', # link all the C files too
 	MYEXTLIB     => 'src/libnsort$(LIB_EXT)',
-	OPTIMIZE     => '-O3',
+#	OPTIMIZE     => '-O3',
+	OPTIMIZE     => '-g',
 );
 if (eval {
 	require ExtUtils::Constant;

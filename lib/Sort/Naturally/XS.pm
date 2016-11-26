@@ -1,6 +1,6 @@
 package Sort::Naturally::XS;
 
-use 5.018002;
+use 5.010001;
 use strict;
 use warnings;
 use Carp;
@@ -12,7 +12,7 @@ our @ISA = qw(Exporter);
 
 our @EXPORT = qw(ncmp nsort);
 
-our $VERSION = '0.6.0';
+our $VERSION = '0.6.1';
 
 require XSLoader;
 XSLoader::load('Sort::Naturally::XS', $VERSION);

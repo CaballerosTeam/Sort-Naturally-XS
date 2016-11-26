@@ -18,3 +18,6 @@ Revision history for Perl extension Sort::Naturally::XS.
 
 0.6.0 Wed Nov 23 22:08:00 2016
     - refactor pre-process in comparator, properly sort dimensions (like 2400x2600), improve tests
+
+0.6.1 Sat Now 26 22:13:00 2016
+    - support perl v5.10.1
