@@ -52,3 +52,26 @@ nsort(...)
         av_undef(array);
         SvREFCNT_dec(array);
         XSRETURN(items);
+
+SV *
+sorted(array_ref)
+        SV *    array_ref
+    CODE:
+        if (!SvROK(array_ref) || SvTYPE(SvRV(array_ref)) != SVt_PVAV) {
+            croak("Not an ARRAY ref");
+        }
+        AV * array = (AV *) SvRV(array_ref);
+        int array_len = av_top_index(array)+1;
+        AV * result = newAV();
+        int i;
+        for (i=0; i<array_len; i++) {
+            SV ** item = av_fetch(array, i, 0);
+            if (item != NULL) {
+                av_push(result, *item);
+            }
+        }
+        sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+        RETVAL = newRV((SV *) result);
+        //SvREFCNT_dec(array);
+    OUTPUT:
+        RETVAL

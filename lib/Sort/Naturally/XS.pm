@@ -17,6 +17,14 @@ our $VERSION = '0.6.2';
 require XSLoader;
 XSLoader::load('Sort::Naturally::XS', $VERSION);
 
+sub isorted {
+    my ($ar, %kwargs) = @_;
+
+    my $reverse = $kwargs{reverse} ? 1 : 0;
+
+    return sorted($ar);
+}
+
 # Preloaded methods go here.
 
 # Autoload methods go after =cut, and are processed by the autosplit program.

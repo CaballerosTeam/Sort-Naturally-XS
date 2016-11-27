@@ -328,6 +328,41 @@ XS_EUPXS(XS_Sort__Naturally__XS_nsort)
     XSRETURN(1);
 }
 
+
+XS_EUPXS(XS_Sort__Naturally__XS_sorted); /* prototype to pass -Wmissing-prototypes */
+XS_EUPXS(XS_Sort__Naturally__XS_sorted)
+{
+    dVAR; dXSARGS;
+    if (items != 1)
+       croak_xs_usage(cv,  "array_ref");
+    {
+	SV *	array_ref = ST(0)
+;
+	SV *	RETVAL;
+#line 60 "XS.xs"
+        if (!SvROK(array_ref) || SvTYPE(SvRV(array_ref)) != SVt_PVAV) {
+            croak("Not an ARRAY ref");
+        }
+        AV * array = (AV *) SvRV(array_ref);
+        int array_len = av_top_index(array)+1;
+        AV * result = newAV();
+        int i;
+        for (i=0; i<array_len; i++) {
+            SV ** item = av_fetch(array, i, 0);
+            if (item != NULL) {
+                av_push(result, *item);
+            }
+        }
+        sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+        RETVAL = newRV((SV *) result);
+        //SvREFCNT_dec(array);
+#line 360 "XS.c"
+	ST(0) = RETVAL;
+	sv_2mortal(ST(0));
+    }
+    XSRETURN(1);
+}
+
 #ifdef __cplusplus
 extern "C"
 #endif
@@ -351,6 +386,7 @@ XS_EXTERNAL(boot_Sort__Naturally__XS)
         newXS("Sort::Naturally::XS::constant", XS_Sort__Naturally__XS_constant, file);
         newXS("Sort::Naturally::XS::ncmp", XS_Sort__Naturally__XS_ncmp, file);
         (void)newXSproto_portable("Sort::Naturally::XS::nsort", XS_Sort__Naturally__XS_nsort, file, "@");
+        newXS("Sort::Naturally::XS::sorted", XS_Sort__Naturally__XS_sorted, file);
 #if (PERL_REVISION == 5 && PERL_VERSION >= 9)
   if (PL_unitcheckav)
        call_list(PL_scopestack_ix, PL_unitcheckav);
