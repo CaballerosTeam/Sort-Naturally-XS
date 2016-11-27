@@ -74,7 +74,7 @@ int ncmp(const char *a, const char *b) {
 
 char *get_next_chunk(const char *raw, int *offset, bool *is_digit) {
     int len;
-    if (is_digit == NULL) {
+    if (*offset == 0) {
         *is_digit = isdigit(raw[*offset]);
     }
     int i;
