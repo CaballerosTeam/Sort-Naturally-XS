@@ -64,9 +64,9 @@ nsort(...)
         XSRETURN(items);
 
 SV *
-_sorted(array_ref, rev)
+_sorted(array_ref, reverse)
         SV *    array_ref
-        SV *    rev
+        int     reverse
     CODE:
         if (!SvROK(array_ref) || SvTYPE(SvRV(array_ref)) != SVt_PVAV) {
             croak("Not an ARRAY ref");
@@ -81,11 +81,6 @@ _sorted(array_ref, rev)
                 av_push(result, *item);
             }
         }
-        IV reverse = 0;
-        if (SvROK(rev)) {
-            reverse = (IV) SvIV(rev);
-        }
-        printf("in .xs reverse: %d", reverse);
         if (reverse) {
             sortsv(AvARRAY(result), array_len, S_sv_ncmp_reverse);
         }

@@ -15,6 +15,6 @@ $ar_expected = [reverse(@{$ar_expected})];
 $result = Sort::Naturally::XS::sorted($ar, reverse => 1);
 
 ok(eq_array($ar_expected, $result), 'Array sorted descending');
-ok(eq_array($ar_copy, $ar), 'Original array not changed after descending');
+ok(eq_array($ar_copy, $ar), 'Original array not changed after descending sort');
 
 done_testing();

@@ -21,7 +21,7 @@ sub sorted {
     my ($ar, %kwargs) = @_;
 
     my $reverse = $kwargs{reverse} ? 1 : 0;
-print 'in .pm reverse: ' . $reverse . "\n";
+
     return _sorted($ar, $reverse);
 }
 

@@ -23,10 +23,18 @@ S_sv_ncmp(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return ncmp(ia, ib);
+    return ncmp(ia, ib, 0);
 }
 
-#line 30 "XS.c"
+static I32
+S_sv_ncmp_reverse(pTHX_ SV *a, SV *b)
+{
+    const char *ia = (const char *) SvPVX(a);
+    const char *ib = (const char *) SvPVX(b);
+    return ncmp(ia, ib, 1);
+}
+
+#line 38 "XS.c"
 #ifndef PERL_UNUSED_VAR
 #  define PERL_UNUSED_VAR(var) if (0) var = var
 #endif
@@ -168,7 +176,7 @@ S_croak_xs_usage(pTHX_ const CV *const cv, const char *const params)
 #define newXSproto_portable(name, c_impl, file, proto) (PL_Sv=(SV*)newXS(name, c_impl, file), sv_setpv(PL_Sv, proto), (CV*)PL_Sv)
 #endif /* !defined(newXS_flags) */
 
-#line 172 "XS.c"
+#line 180 "XS.c"
 
 /* INCLUDE:  Including 'const-xs.inc' from 'XS.xs' */
 
@@ -193,7 +201,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_constant)
 	/* IV		iv;	Uncomment this if you need to return IVs */
 	/* NV		nv;	Uncomment this if you need to return NVs */
 	/* const char	*pv;	Uncomment this if you need to return PVs */
-#line 197 "XS.c"
+#line 205 "XS.c"
 	SV *	sv = ST(0)
 ;
 	const char *	s = SvPV(sv, len);
@@ -270,7 +278,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_constant)
                type, s));
           PUSHs(sv);
         }
-#line 274 "XS.c"
+#line 282 "XS.c"
 	PUTBACK;
 	return;
     }
@@ -293,8 +301,9 @@ XS_EUPXS(XS_Sort__Naturally__XS_ncmp)
 ;
 	int	RETVAL;
 	dXSTARG;
-
-	RETVAL = ncmp(arg_a, arg_b);
+#line 42 "XS.xs"
+        RETVAL = ncmp(arg_a, arg_b, 0);
+#line 307 "XS.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
     }
     XSRETURN(1);
@@ -307,7 +316,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_nsort)
     dVAR; dXSARGS;
     PERL_UNUSED_VAR(cv); /* -W */
     {
-#line 40 "XS.xs"
+#line 50 "XS.xs"
         if (!items) {
             XSRETURN_UNDEF;
         }
@@ -323,23 +332,25 @@ XS_EUPXS(XS_Sort__Naturally__XS_nsort)
         av_undef(array);
         SvREFCNT_dec(array);
         XSRETURN(items);
-#line 327 "XS.c"
+#line 336 "XS.c"
     }
     XSRETURN(1);
 }
 
 
-XS_EUPXS(XS_Sort__Naturally__XS_sorted); /* prototype to pass -Wmissing-prototypes */
-XS_EUPXS(XS_Sort__Naturally__XS_sorted)
+XS_EUPXS(XS_Sort__Naturally__XS__sorted); /* prototype to pass -Wmissing-prototypes */
+XS_EUPXS(XS_Sort__Naturally__XS__sorted)
 {
     dVAR; dXSARGS;
-    if (items != 1)
-       croak_xs_usage(cv,  "array_ref");
+    if (items != 2)
+       croak_xs_usage(cv,  "array_ref, reverse");
     {
 	SV *	array_ref = ST(0)
 ;
+	int	reverse = (int)SvIV(ST(1))
+;
 	SV *	RETVAL;
-#line 60 "XS.xs"
+#line 71 "XS.xs"
         if (!SvROK(array_ref) || SvTYPE(SvRV(array_ref)) != SVt_PVAV) {
             croak("Not an ARRAY ref");
         }
@@ -353,10 +364,15 @@ XS_EUPXS(XS_Sort__Naturally__XS_sorted)
                 av_push(result, *item);
             }
         }
-        sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+        if (reverse) {
+            sortsv(AvARRAY(result), array_len, S_sv_ncmp_reverse);
+        }
+        else {
+            sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+        }
         RETVAL = newRV((SV *) result);
         //SvREFCNT_dec(array);
-#line 360 "XS.c"
+#line 376 "XS.c"
 	ST(0) = RETVAL;
 	sv_2mortal(ST(0));
     }
@@ -386,7 +402,7 @@ XS_EXTERNAL(boot_Sort__Naturally__XS)
         newXS("Sort::Naturally::XS::constant", XS_Sort__Naturally__XS_constant, file);
         newXS("Sort::Naturally::XS::ncmp", XS_Sort__Naturally__XS_ncmp, file);
         (void)newXSproto_portable("Sort::Naturally::XS::nsort", XS_Sort__Naturally__XS_nsort, file, "@");
-        newXS("Sort::Naturally::XS::sorted", XS_Sort__Naturally__XS_sorted, file);
+        newXS("Sort::Naturally::XS::_sorted", XS_Sort__Naturally__XS__sorted, file);
 #if (PERL_REVISION == 5 && PERL_VERSION >= 9)
   if (PL_unitcheckav)
        call_list(PL_scopestack_ix, PL_unitcheckav);
