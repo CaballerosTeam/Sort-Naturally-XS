@@ -6,7 +6,7 @@
 
 char *get_next_chunk(const char *, int *, bool *);
 
-int ncmp(const char *a, const char *b) {
+int ncmp(const char *a, const char *b, int reverse) {
     int len_a = strlen(a);
     int len_b = strlen(b);
     int offset_a = 0;
@@ -66,6 +66,15 @@ int ncmp(const char *a, const char *b) {
             } else if (offset_b == len_b) {
                 result = 1;
             }
+        }
+    }
+
+    if (reverse) {
+        if (result == -1) {
+            result = 1;
+        }
+        else if (result == 1) {
+            result = -1;
         }
     }
 

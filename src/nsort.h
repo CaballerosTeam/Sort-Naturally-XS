@@ -1,1 +1,1 @@
-extern int ncmp(const char *, const char *);
+extern int ncmp(const char *, const char *, int reverse);

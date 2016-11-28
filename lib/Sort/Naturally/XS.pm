@@ -17,12 +17,12 @@ our $VERSION = '0.6.2';
 require XSLoader;
 XSLoader::load('Sort::Naturally::XS', $VERSION);
 
-sub isorted {
+sub sorted {
     my ($ar, %kwargs) = @_;
 
     my $reverse = $kwargs{reverse} ? 1 : 0;
-
-    return sorted($ar);
+print 'in .pm reverse: ' . $reverse . "\n";
+    return _sorted($ar, $reverse);
 }
 
 # Preloaded methods go here.
