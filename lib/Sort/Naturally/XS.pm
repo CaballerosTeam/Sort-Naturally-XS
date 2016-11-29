@@ -8,11 +8,13 @@ use Carp;
 require Exporter;
 use AutoLoader;
 
-our @ISA = qw(Exporter);
+our @ISA = qw/Exporter/;
 
-our @EXPORT = qw(ncmp nsort);
+our @EXPORT = qw/ncmp nsort/;
 
-our $VERSION = '0.6.2';
+our @EXPORT_OK = qw/sorted/;
+
+our $VERSION = '0.7.0';
 
 require XSLoader;
 XSLoader::load('Sort::Naturally::XS', $VERSION);
@@ -21,8 +23,9 @@ sub sorted {
     my ($ar, %kwargs) = @_;
 
     my $reverse = $kwargs{reverse} ? 1 : 0;
+    my $locale = $kwargs{locale} || '';
 
-    return _sorted($ar, $reverse);
+    return _sorted($ar, $reverse, $locale);
 }
 
 # Preloaded methods go here.

@@ -8,6 +8,7 @@
 
 #line 1 "XS.xs"
 #define PERL_NO_GET_CONTEXT
+#include "locale.h"
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
@@ -23,7 +24,7 @@ S_sv_ncmp(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return ncmp(ia, ib, 0);
+    return ncmp(ia, ib, 0, 0);
 }
 
 static I32
@@ -31,10 +32,26 @@ S_sv_ncmp_reverse(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return ncmp(ia, ib, 1);
+    return ncmp(ia, ib, 1, 0);
 }
 
-#line 38 "XS.c"
+static I32
+S_sv_ncoll(pTHX_ SV *a, SV *b)
+{
+    const char *ia = (const char *) SvPVX(a);
+    const char *ib = (const char *) SvPVX(b);
+    return ncmp(ia, ib, 0, 1);
+}
+
+static I32
+S_sv_ncoll_reverse(pTHX_ SV *a, SV *b)
+{
+    const char *ia = (const char *) SvPVX(a);
+    const char *ib = (const char *) SvPVX(b);
+    return ncmp(ia, ib, 1, 1);
+}
+
+#line 55 "XS.c"
 #ifndef PERL_UNUSED_VAR
 #  define PERL_UNUSED_VAR(var) if (0) var = var
 #endif
@@ -176,7 +193,7 @@ S_croak_xs_usage(pTHX_ const CV *const cv, const char *const params)
 #define newXSproto_portable(name, c_impl, file, proto) (PL_Sv=(SV*)newXS(name, c_impl, file), sv_setpv(PL_Sv, proto), (CV*)PL_Sv)
 #endif /* !defined(newXS_flags) */
 
-#line 180 "XS.c"
+#line 197 "XS.c"
 
 /* INCLUDE:  Including 'const-xs.inc' from 'XS.xs' */
 
@@ -201,7 +218,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_constant)
 	/* IV		iv;	Uncomment this if you need to return IVs */
 	/* NV		nv;	Uncomment this if you need to return NVs */
 	/* const char	*pv;	Uncomment this if you need to return PVs */
-#line 205 "XS.c"
+#line 222 "XS.c"
 	SV *	sv = ST(0)
 ;
 	const char *	s = SvPV(sv, len);
@@ -278,7 +295,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_constant)
                type, s));
           PUSHs(sv);
         }
-#line 282 "XS.c"
+#line 299 "XS.c"
 	PUTBACK;
 	return;
     }
@@ -301,9 +318,9 @@ XS_EUPXS(XS_Sort__Naturally__XS_ncmp)
 ;
 	int	RETVAL;
 	dXSTARG;
-#line 42 "XS.xs"
-        RETVAL = ncmp(arg_a, arg_b, 0);
-#line 307 "XS.c"
+#line 59 "XS.xs"
+        RETVAL = ncmp(arg_a, arg_b, 0, 0);
+#line 324 "XS.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
     }
     XSRETURN(1);
@@ -316,7 +333,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_nsort)
     dVAR; dXSARGS;
     PERL_UNUSED_VAR(cv); /* -W */
     {
-#line 50 "XS.xs"
+#line 67 "XS.xs"
         if (!items) {
             XSRETURN_UNDEF;
         }
@@ -332,7 +349,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_nsort)
         av_undef(array);
         SvREFCNT_dec(array);
         XSRETURN(items);
-#line 336 "XS.c"
+#line 353 "XS.c"
     }
     XSRETURN(1);
 }
@@ -342,15 +359,17 @@ XS_EUPXS(XS_Sort__Naturally__XS__sorted); /* prototype to pass -Wmissing-prototy
 XS_EUPXS(XS_Sort__Naturally__XS__sorted)
 {
     dVAR; dXSARGS;
-    if (items != 2)
-       croak_xs_usage(cv,  "array_ref, reverse");
+    if (items != 3)
+       croak_xs_usage(cv,  "array_ref, reverse, locale");
     {
 	SV *	array_ref = ST(0)
 ;
 	int	reverse = (int)SvIV(ST(1))
 ;
+	const char *	locale = (const char *)SvPV_nolen(ST(2))
+;
 	SV *	RETVAL;
-#line 71 "XS.xs"
+#line 89 "XS.xs"
         if (!SvROK(array_ref) || SvTYPE(SvRV(array_ref)) != SVt_PVAV) {
             croak("Not an ARRAY ref");
         }
@@ -364,15 +383,23 @@ XS_EUPXS(XS_Sort__Naturally__XS__sorted)
                 av_push(result, *item);
             }
         }
-        if (reverse) {
-            sortsv(AvARRAY(result), array_len, S_sv_ncmp_reverse);
-        }
-        else {
-            sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+        if (locale != NULL && strlen(locale)) {
+            const char * old_locale = setlocale(LC_ALL, locale);
+            if (reverse) {
+                sortsv(AvARRAY(result), array_len, S_sv_ncoll_reverse);
+            } else {
+                sortsv(AvARRAY(result), array_len, S_sv_ncoll);
+            }
+            setlocale(LC_ALL, old_locale);
+        } else {
+            if (reverse) {
+                sortsv(AvARRAY(result), array_len, S_sv_ncmp_reverse);
+            } else {
+                sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+            }
         }
         RETVAL = newRV((SV *) result);
-        //SvREFCNT_dec(array);
-#line 376 "XS.c"
+#line 403 "XS.c"
 	ST(0) = RETVAL;
 	sv_2mortal(ST(0));
     }

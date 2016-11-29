@@ -24,3 +24,6 @@ Revision history for Perl extension Sort::Naturally::XS.
 
 0.6.2 Sat Now 26 22:40:00 2016
     - minor fix digit only sort, avoid useless iteration for each element
+
+0.7.0 Tue Now 29 22:14:00 2016
+    - add sorted subroutine with locale and reverse support

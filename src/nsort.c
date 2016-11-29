@@ -6,7 +6,7 @@
 
 char *get_next_chunk(const char *, int *, bool *);
 
-int ncmp(const char *a, const char *b, int reverse) {
+int ncmp(const char *a, const char *b, int reverse, int use_locale) {
     int len_a = strlen(a);
     int len_b = strlen(b);
     int offset_a = 0;
@@ -45,6 +45,8 @@ int ncmp(const char *a, const char *b, int reverse) {
                     chunk_a_int = atoi(chunk_a);
                     chunk_b_int = atoi(chunk_b);
                     result = (chunk_a_int < chunk_b_int) ? -1 : (chunk_a_int > chunk_b_int);
+                } else if (use_locale) {
+                    result = strcoll(chunk_a, chunk_b);
                 } else {
                     result = strcmp(chunk_a, chunk_b);
                 }
