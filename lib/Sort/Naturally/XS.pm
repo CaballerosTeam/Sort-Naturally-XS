@@ -22,10 +22,15 @@ XSLoader::load('Sort::Naturally::XS', $VERSION);
 sub sorted {
     my ($ar, %kwargs) = @_;
 
+    Carp::confess('Not an ARRAY ref') if (ref $ar ne 'ARRAY');
+
+    my $ar_copy = [@{$ar}];
     my $reverse = $kwargs{reverse} ? 1 : 0;
     my $locale = $kwargs{locale} || '';
 
-    return _sorted($ar, $reverse, $locale);
+    _sorted($ar_copy, $reverse, $locale);
+
+    return $ar_copy;
 }
 
 # Preloaded methods go here.

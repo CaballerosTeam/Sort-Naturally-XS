@@ -368,42 +368,30 @@ XS_EUPXS(XS_Sort__Naturally__XS__sorted)
 ;
 	const char *	locale = (const char *)SvPV_nolen(ST(2))
 ;
-	SV *	RETVAL;
 #line 89 "XS.xs"
         if (!SvROK(array_ref) || SvTYPE(SvRV(array_ref)) != SVt_PVAV) {
             croak("Not an ARRAY ref");
         }
         AV * array = (AV *) SvRV(array_ref);
-        int array_len = av_top_index(array)+1;
-        AV * result = newAV();
-        int i;
-        for (i=0; i<array_len; i++) {
-            SV ** item = av_fetch(array, i, 0);
-            if (item != NULL) {
-                av_push(result, *item);
-            }
-        }
+        int array_len = av_top_index(array) + 1;
         if (locale != NULL && strlen(locale)) {
             const char * old_locale = setlocale(LC_ALL, locale);
             if (reverse) {
-                sortsv(AvARRAY(result), array_len, S_sv_ncoll_reverse);
+                sortsv(AvARRAY(array), array_len, S_sv_ncoll_reverse);
             } else {
-                sortsv(AvARRAY(result), array_len, S_sv_ncoll);
+                sortsv(AvARRAY(array), array_len, S_sv_ncoll);
             }
             setlocale(LC_ALL, old_locale);
         } else {
             if (reverse) {
-                sortsv(AvARRAY(result), array_len, S_sv_ncmp_reverse);
+                sortsv(AvARRAY(array), array_len, S_sv_ncmp_reverse);
             } else {
-                sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+                sortsv(AvARRAY(array), array_len, S_sv_ncmp);
             }
         }
-        RETVAL = newRV((SV *) result);
-#line 403 "XS.c"
-	ST(0) = RETVAL;
-	sv_2mortal(ST(0));
+#line 393 "XS.c"
     }
-    XSRETURN(1);
+    XSRETURN_EMPTY;
 }
 
 #ifdef __cplusplus

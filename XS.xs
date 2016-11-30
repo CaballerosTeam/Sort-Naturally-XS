@@ -80,7 +80,7 @@ nsort(...)
         SvREFCNT_dec(array);
         XSRETURN(items);
 
-SV *
+void
 _sorted(array_ref, reverse, locale)
         SV *            array_ref
         int             reverse
@@ -90,30 +90,19 @@ _sorted(array_ref, reverse, locale)
             croak("Not an ARRAY ref");
         }
         AV * array = (AV *) SvRV(array_ref);
-        int array_len = av_top_index(array)+1;
-        AV * result = newAV();
-        int i;
-        for (i=0; i<array_len; i++) {
-            SV ** item = av_fetch(array, i, 0);
-            if (item != NULL) {
-                av_push(result, *item);
-            }
-        }
+        int array_len = av_top_index(array) + 1;
         if (locale != NULL && strlen(locale)) {
             const char * old_locale = setlocale(LC_ALL, locale);
             if (reverse) {
-                sortsv(AvARRAY(result), array_len, S_sv_ncoll_reverse);
+                sortsv(AvARRAY(array), array_len, S_sv_ncoll_reverse);
             } else {
-                sortsv(AvARRAY(result), array_len, S_sv_ncoll);
+                sortsv(AvARRAY(array), array_len, S_sv_ncoll);
             }
             setlocale(LC_ALL, old_locale);
         } else {
             if (reverse) {
-                sortsv(AvARRAY(result), array_len, S_sv_ncmp_reverse);
+                sortsv(AvARRAY(array), array_len, S_sv_ncmp_reverse);
             } else {
-                sortsv(AvARRAY(result), array_len, S_sv_ncmp);
+                sortsv(AvARRAY(array), array_len, S_sv_ncmp);
             }
         }
-        RETVAL = newRV((SV *) result);
-    OUTPUT:
-        RETVAL
