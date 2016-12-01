@@ -71,16 +71,7 @@ int ncmp(const char *a, const char *b, int reverse, int use_locale) {
         }
     }
 
-    if (reverse) {
-        if (result == -1) {
-            result = 1;
-        }
-        else if (result == 1) {
-            result = -1;
-        }
-    }
-
-    return result;
+    return reverse ? (-1 * result) : result;
 }
 
 char *get_next_chunk(const char *raw, int *offset, bool *is_digit) {

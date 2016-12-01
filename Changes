@@ -27,3 +27,6 @@ Revision history for Perl extension Sort::Naturally::XS.
 
 0.7.0 Tue Now 29 22:14:00 2016
     - add sorted subroutine with locale and reverse support
+
+0.7.1 Thu Dec 01 21:38:00 2016
+    - fix simultaneously locale and reverse sort

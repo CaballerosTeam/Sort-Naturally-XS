@@ -60,4 +60,8 @@ my $ar_local__expected = [qw/е ё и й/];
 my $ar_local__actual = sorted($ar_local, locale => 'ru_RU.utf8');
 ok(eq_array($ar_local__expected, $ar_local__actual), 'Locale support');
 
+$ar_local__expected = [reverse(@{$ar_local__expected})];
+$ar_local__actual = sorted($ar_local, locale => 'ru_RU.utf8', reverse => 1);
+ok(eq_array($ar_local__expected, $ar_local__actual), 'Locale reverse sort');
+
 done_testing();
