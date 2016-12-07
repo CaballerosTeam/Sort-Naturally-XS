@@ -6,7 +6,7 @@
 
 char *get_next_chunk(const char *, int *, bool *);
 
-int ncmp(const char *a, const char *b, int reverse, int use_locale) {
+int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
     int len_a = strlen(a);
     int len_b = strlen(b);
     int offset_a = 0;
@@ -23,7 +23,7 @@ int ncmp(const char *a, const char *b, int reverse, int use_locale) {
     int chunk_b_int;
     int result = 0;
 
-    if (is_fist_char_a_alpha && is_fist_char_b_alpha) {
+    if (!use_locale && is_fist_char_a_alpha && is_fist_char_b_alpha) {
         offset_a = 1;
         offset_b = 1;
         result = (a[0] < b[0]) ? -1 : (a[0] > b[0]);

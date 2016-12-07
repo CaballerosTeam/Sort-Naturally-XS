@@ -24,7 +24,7 @@ S_sv_ncmp(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return ncmp(ia, ib, 0, 0);
+    return _ncmp(ia, ib, 0, 0);
 }
 
 static I32
@@ -32,7 +32,7 @@ S_sv_ncmp_reverse(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return ncmp(ia, ib, 1, 0);
+    return _ncmp(ia, ib, 1, 0);
 }
 
 static I32
@@ -40,7 +40,7 @@ S_sv_ncoll(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return ncmp(ia, ib, 0, 1);
+    return _ncmp(ia, ib, 0, 1);
 }
 
 static I32
@@ -48,7 +48,7 @@ S_sv_ncoll_reverse(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return ncmp(ia, ib, 1, 1);
+    return _ncmp(ia, ib, 1, 1);
 }
 
 #line 55 "XS.c"
@@ -319,7 +319,7 @@ XS_EUPXS(XS_Sort__Naturally__XS_ncmp)
 	int	RETVAL;
 	dXSTARG;
 #line 59 "XS.xs"
-        RETVAL = ncmp(arg_a, arg_b, 0, 0);
+        RETVAL = _ncmp(arg_a, arg_b, 0, 0);
 #line 324 "XS.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
     }

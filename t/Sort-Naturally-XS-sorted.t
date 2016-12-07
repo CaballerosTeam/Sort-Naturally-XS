@@ -55,13 +55,22 @@ ok(eq_array($ar_mixed_simple_reverse__expected, sorted($ar_mixed_simple, reverse
 ok(eq_array($ar_mixed_simple_copy, $ar_mixed_simple), 'Original array not changed after descending sort');
 
 # locale test
-my $ar_local = [qw/и й е ё/];
-my $ar_local__expected = [qw/е ё и й/];
-my $ar_local__actual = sorted($ar_local, locale => 'ru_RU.utf8');
-ok(eq_array($ar_local__expected, $ar_local__actual), 'Locale support');
+my $ar_ru_local = [qw/и й е ё/];
+my $ar_ru_local__expected = [qw/е ё и й/];
+my $ar_ru_local__actual = sorted($ar_ru_local, locale => 'ru_RU.utf8');
+ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU test');
 
-$ar_local__expected = [reverse(@{$ar_local__expected})];
-$ar_local__actual = sorted($ar_local, locale => 'ru_RU.utf8', reverse => 1);
-ok(eq_array($ar_local__expected, $ar_local__actual), 'Locale reverse sort');
+$ar_ru_local__expected = [reverse(@{$ar_ru_local__expected})];
+$ar_ru_local__actual = sorted($ar_ru_local, locale => 'ru_RU.utf8', reverse => 1);
+ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU reverse test');
+
+my $ar_en_local = ['a'..'c', 'A'..'C'];
+my $ar_us_local__expected = [qw/a A b B c C/];
+my $ar_us_local__actual = sorted($ar_en_local, locale => 'en_US.utf8');
+ok(eq_array($ar_us_local__expected, $ar_us_local__actual), 'Locale US test');
+
+my $ar_ca_local__expected = [qw/A a B b C c/];
+my $ar_ca_local__actual = sorted($ar_en_local, locale => 'en_CA.utf8');
+ok(eq_array($ar_ca_local__expected, $ar_ca_local__actual), 'Locale CA test');
 
 done_testing();

@@ -30,3 +30,6 @@ Revision history for Perl extension Sort::Naturally::XS.
 
 0.7.1 Thu Dec 01 21:38:00 2016
     - fix simultaneously locale and reverse sort
+
+0.7.2 Wed Dec 07 23:13:00 2016
+    - fix locale support, improve locale tests
