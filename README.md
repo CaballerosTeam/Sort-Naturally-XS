@@ -24,6 +24,8 @@ To install this module type the following:
   @result = sort ncmp @mixed_list; # same, but use standard sort function
 
   @result = sort {ncmp($a, $b)} @mixed_list; # same as ncmp, but argument pass explicitly
+  
+  my $result = Sort::Naturally::XS::sorted(\@mixed_list, locale => 'ru_RU.utf8'); # pass custom locale
 ```
 
 ## DESCRIPTION
