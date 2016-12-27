@@ -90,7 +90,7 @@ _sorted(array_ref, reverse, locale)
             croak("Not an ARRAY ref");
         }
         AV * array = (AV *) SvRV(array_ref);
-        int array_len = av_top_index(array) + 1;
+        int array_len = av_len(array) + 1;
         if (locale != NULL && strlen(locale)) {
             const char * old_locale = setlocale(LC_ALL, locale);
             if (reverse) {
