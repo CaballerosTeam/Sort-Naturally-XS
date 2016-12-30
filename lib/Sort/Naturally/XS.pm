@@ -173,7 +173,7 @@ By default module exports C<ncmp> and C<nsort>q subroutines.
 
 =item Due to significant overhead not recommended sorting lists consisting only of letters or only of digits
 
-=item due to complexity of cross-platform support, locale aware sorting guaranteed only on Unix-like
+=item Due to complexity of cross-platform support, locale aware sorting guaranteed only on Unix-like
 operating systems
 
 =back
