@@ -1,12 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unicode/ustring.h>
+#include <unicode/ucol.h>
 #include "nsort.h"
 
 char *get_next_chunk(const char *, int *, bool *);
 
-int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
+int _ncmp(const char *a, const char *b, int reverse, UCollator *collator) {
     int len_a = strlen(a);
     int len_b = strlen(b);
     int offset_a = 0;
@@ -22,8 +25,10 @@ int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
     int chunk_a_int;
     int chunk_b_int;
     int result = 0;
+    UChar u_chunk_a[100], u_chunk_b[100];
+    UErrorCode errorCode = U_ZERO_ERROR;
 
-    if (!use_locale && is_fist_char_a_alpha && is_fist_char_b_alpha) {
+    if (!collator && is_fist_char_a_alpha && is_fist_char_b_alpha) {
         offset_a = 1;
         offset_b = 1;
         result = (a[0] < b[0]) ? -1 : (a[0] > b[0]);
@@ -45,8 +50,17 @@ int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
                     chunk_a_int = atoi(chunk_a);
                     chunk_b_int = atoi(chunk_b);
                     result = (chunk_a_int < chunk_b_int) ? -1 : (chunk_a_int > chunk_b_int);
-                } else if (use_locale) {
-                    result = strcoll(chunk_a, chunk_b);
+                } else if (collator) {
+                    u_strFromUTF8(u_chunk_a, 100, NULL, chunk_a, -1, &errorCode);
+                    if (U_FAILURE(errorCode)) {
+                        result = 0;
+                    }
+                    u_strFromUTF8(u_chunk_b, 100, NULL, chunk_b, -1, &errorCode);
+                    if (U_FAILURE(errorCode)) {
+                        result = 0;
+                    }
+                    UCollationResult collationResult = ucol_strcoll(collator, u_chunk_a, -1, u_chunk_b, -1);
+                    result = (collationResult == UCOL_LESS) ? -1 : ((collationResult == UCOL_GREATER) ? 1 : 0);
                 } else {
                     result = strcmp(chunk_a, chunk_b);
                 }
@@ -75,7 +89,7 @@ int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
 }
 
 char *get_next_chunk(const char *raw, int *offset, bool *is_digit) {
-    int len;
+    int len = 0;
     if (*offset == 0) {
         *is_digit = isdigit(raw[*offset]);
     }

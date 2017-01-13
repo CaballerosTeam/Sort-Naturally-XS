@@ -1,21 +1,25 @@
 #define PERL_NO_GET_CONTEXT
-#include "locale.h"
+
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
 
 #include "ppport.h"
 
+#include <unicode/ustring.h>
+#include <unicode/ucol.h>
 #include "src/nsort.h"
 
 #include "const-c.inc"
+
+UCollator *collator = 0;
 
 static I32
 S_sv_ncmp(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return _ncmp(ia, ib, 0, 0);
+    return _ncmp(ia, ib, 0, collator);
 }
 
 static I32
@@ -23,7 +27,7 @@ S_sv_ncmp_reverse(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return _ncmp(ia, ib, 1, 0);
+    return _ncmp(ia, ib, 1, collator);
 }
 
 static I32
@@ -31,7 +35,7 @@ S_sv_ncoll(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return _ncmp(ia, ib, 0, 1);
+    return _ncmp(ia, ib, 0, collator);
 }
 
 static I32
@@ -39,7 +43,7 @@ S_sv_ncoll_reverse(pTHX_ SV *a, SV *b)
 {
     const char *ia = (const char *) SvPVX(a);
     const char *ib = (const char *) SvPVX(b);
-    return _ncmp(ia, ib, 1, 1);
+    return _ncmp(ia, ib, 1, collator);
 }
 
 MODULE = Sort::Naturally::XS		PACKAGE = Sort::Naturally::XS		
@@ -92,13 +96,19 @@ _sorted(array_ref, reverse, locale)
         AV * array = (AV *) SvRV(array_ref);
         int array_len = av_len(array) + 1;
         if (locale != NULL && strlen(locale)) {
-            const char * old_locale = setlocale(LC_ALL, locale);
-            if (reverse) {
-                sortsv(AvARRAY(array), array_len, S_sv_ncoll_reverse);
-            } else {
-                sortsv(AvARRAY(array), array_len, S_sv_ncoll);
+            UErrorCode errorCode = U_ZERO_ERROR;
+            collator = ucol_open(locale, &errorCode);
+            if (U_SUCCESS(errorCode)) {
+                if (reverse) {
+                    sortsv(AvARRAY(array), array_len, S_sv_ncoll_reverse);
+                } else {
+                    sortsv(AvARRAY(array), array_len, S_sv_ncoll);
+                }
+                ucol_close(collator);
             }
-            setlocale(LC_ALL, old_locale);
+            else if (U_FAILURE(errorCode)) {
+                fprintf(stderr, "failure: %s", u_errorName(errorCode));
+            }
         } else {
             if (reverse) {
                 sortsv(AvARRAY(array), array_len, S_sv_ncmp_reverse);

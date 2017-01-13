@@ -16,6 +16,7 @@ WriteMakefile(
 	# OBJECT            => '$(O_FILES)', # link all the C files too
 	MYEXTLIB     => 'src/libnsort$(LIB_EXT)',
 	OPTIMIZE     => '-O3',
+	CCFLAGS => '`pkg-config --libs --cflags icu-uc icu-io`',
 );
 if (eval {
 	require ExtUtils::Constant;
