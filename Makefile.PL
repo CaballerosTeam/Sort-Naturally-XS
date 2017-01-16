@@ -1,5 +1,8 @@
 use 5.010001;
+use strict;
+use Config;
 use ExtUtils::MakeMaker;
+
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 WriteMakefile(
@@ -9,9 +12,9 @@ WriteMakefile(
 	($] >= 5.005                                ? ## Add these new keywords supported since 5.005
 		(ABSTRACT_FROM => 'lib/Sort/Naturally/XS.pm', # retrieve abstract from module
 			AUTHOR     => 'oper <oper@(none)>') : ()),
-	LIBS         => [''], # e.g., '-lm'
+	LIBS         => is_mac_os() ? '-L/usr/local/opt/icu4c/lib' : '',
 	DEFINE       => '', # e.g., '-DHAVE_SOMETHING'
-	INC          => '-I.', # e.g., '-I. -I/usr/include/other'
+	INC          => '-I. ' . (is_mac_os() ? '-I/usr/local/opt/icu4c/include' : ''),
 	# Un-comment this if you add C files to link with later:
 	# OBJECT            => '$(O_FILES)', # link all the C files too
 	MYEXTLIB     => 'src/libnsort$(LIB_EXT)',
@@ -49,4 +52,8 @@ sub MY::postamble {
 $(MYEXTLIB): src/Makefile
 		cd src && $(MAKE) $(PASSTHRU)
 ';
+}
+
+sub is_mac_os {
+	return $Config{osname} eq 'darwin';
 }
