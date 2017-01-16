@@ -6,7 +6,6 @@ WriteMakefile(
 	NAME    => 'Sort::Naturally::XS::ncmp',
 	SKIP    => [ qw(all static static_lib dynamic dynamic_lib) ],
 	clean   => { 'FILES' => 'libnsort$(LIB_EXT)' },
-	CCFLAGS => '`pkg-config --libs --cflags icu-uc icu-io`',
 );
 
 sub MY::top_targets {
