@@ -26,15 +26,13 @@ To install this module type the following:
   @result = sort {ncmp($a, $b)} @mixed_list; # same as ncmp, but argument pass explicitly
   
   my $result = Sort::Naturally::XS::sorted(\@mixed_list, locale => 'ru_RU.utf8'); # pass custom locale
-  
-  @result = sort {ncmp($a, $b)} @mixed_list; # same as ncmp, but argument pass explicitly
 ```
 
 ## DESCRIPTION
 
-Natural sort order is an ordering of mixed (consists of characters and digits) strings in alphabetical order,
-except that digits parts are ordered as a numbers. Natural sorting can be considered as a replacement for the standard
-machine-oriented alphabetical sorting, because it more human-readable. For example, following list:
+Natural sort order is an ordering of mixed strings (consist of characters and digits) in alphabetical order, except that
+digital parts are ordered as numbers. Natural sorting can be considered as a replacement of a standard machine-oriented
+alphabetical sorting, because it is more convenient for human understanding. For example, the following list:
 
 ```perl
   test21 test20 test10 test11 test2 test1
@@ -46,7 +44,7 @@ after performing a standard machine-oriented alphabetical sorting, will be as fo
   test1 test10 test11 test2 test20 test21
 ```
 
-It isn't consistent, because test10 and test11 comes before test2. On the other hand, natural sorting gives
+The sequence appears unnatural, because test10 and test11 come before test2. On the other hand, natural sorting gives a
 human-friendly sequence:
 
 ```perl
@@ -61,8 +59,8 @@ now test2 comes before test10 and test11.
 
 > ncmp(LEFT, RIGHT)
 
-Replacement for the standard C<cmp> operator. LEFT and RIGHT elements to compare. Returns 1 if LEFT comes before
-RIGHT, -1 if RIGHT comes before LEFT and 0 if LEFT and RIGHT are matched.
+Replacement of the `cmp` standard operator. LEFT and RIGHT lines are presented for comparison. Returns 1 if LEFT should
+come before RIGHT, -1 if RIGHT should come before LEFT and 0 if LEFT and RIGHT match.
 
 ```perl
   # sort @list naturally, support in latest perl versions
@@ -79,7 +77,7 @@ RIGHT, -1 if RIGHT comes before LEFT and 0 if LEFT and RIGHT are matched.
 
 > nsort(LIST)
 
-In list context returns sorted copy of LIST.
+In list context returns a LIST sorted copy.
 
 ```perl
   my @result = nsort(@list);
@@ -89,9 +87,9 @@ In list context returns sorted copy of LIST.
 
 > sorted(ARRAY_REF, KWARGS)
 
-Returns an ARRAY ref to sorted list. First argument is an ARRAY ref to origin list, followed by keyword arguments,
-such as C<reverse> or C<locale>. If C<reverse> is true origin list sorted in descending order. If C<locale> is
-specified, performed locale aware sorting.
+Returns an ARRAY ref to a sorted list. First argument is an ARRAY ref to the source list, followed by keyword arguments,
+such as `reverse` and `locale`. If `reverse` is true the source list is sorted in reverse order. If `locale` is
+specified, the sorting will be performed according to the locale aware settings.
 
 ```perl
   use Sort::Naturally::XS qw/sorted/;
@@ -105,9 +103,9 @@ specified, performed locale aware sorting.
 
 ## LOCALE AWARE SORTING
 
-By default C<sort> sorts according to standard C locale or if C<use locale> pragma is in effect according to OS setting,
-which can be changes by C<setlocale> function. Both C<use locale> and C<setlocale> has no effect on C<ncmp> and C<nsort>.
-The following exmaple demonstrates this behavior:
+By default the `sort` function sorts according to a standard C locale or, if a `use locale` pragma is in effect,
+according to OS settings, which can be changed with the help of the `setlocale` function. The use of both `use locale`
+and `setlocale` has no effect on `ncmp` and `nsort`. The following example demonstrates this behavior:
 
 ```perl
   use POSIX;
@@ -134,7 +132,8 @@ The following exmaple demonstrates this behavior:
   # @result_ncmp contains A, B, C, a, b, c
 ```
 
-To be able to sort with arbitrary locale should used C<sorted> function with C<locale> keyword argument:
+To be able to sort a list with an arbitrary locale it is necessary to use the `sorted` function with a `locale` keyword
+argument:
 
 ```perl
   use Sort::Naturally::XS qw/sorted/;
@@ -148,19 +147,20 @@ To be able to sort with arbitrary locale should used C<sorted> function with C<l
   # $result_ca contains A, a, B, b, C, c
 ```
 
-Note: due to complexity of cross-platform support, locale aware sorting guaranteed only on Unix-like
-operating systems
+Note: due to the complexity of a cross-platform support, a locale aware sorting is guaranteed on Unix-like operating
+systems only.
 
 ## EXPORT
 
-By default module exports `ncmp` and `nsort` subroutines.
+By default the module exports `ncmp` and `nsort` subroutines.
 
 ## NOTES
 
-* There are differences in comparison with the Sort::Naturally module
-* Due to significant overhead not recommended sorting lists consisting only of letters or only of digits
-* Due to complexity of cross-platform support, locale aware sorting guaranteed only on Unix-like
-operating systems
+* There are differences in sorting outcomes compared with the `Sort::Naturally` module. Capital letters always come
+before lower case letters, digits always come before letters.
+* Due to a significant strain it is not recommended for sorting lists consisting of letters or digits only.
+* Due to the complexity of a cross-platform support, a locale aware sorting is guaranteed on Unix-like operating systems
+only.
 
 ## SEE ALSO
 
@@ -173,7 +173,7 @@ Sergey Yurzin, [jurzin.s@gmail.com](mailto:jurzin.s@gmail.com)
 
 ## COPYRIGHT AND LICENSE
 
-Copyright (C) 2016 by Sergey Yurzin
+Copyright (C) 2017 by Sergey Yurzin
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.2 or,
