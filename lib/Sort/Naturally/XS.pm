@@ -115,7 +115,8 @@ specified, the sorting will be performed according to the locale aware settings.
 
   $result = sorted($list, reverse => 1); # $list will be sorted in descending order
 
-  $result = sorted($list, locale => 'en_US.utf8'); # $list will be sorted according to en_US.utf8 locale
+  # $list will be sorted according to en_US.utf8 locale
+  $result = sorted($list, locale => 'en_US.utf8');
 
 =back
 
@@ -178,11 +179,12 @@ By default the module exports C<ncmp> and C<nsort> subroutines.
   require Sort::Naturally;
 
   my @list = (
-      'H4', 'T25', 'H5', 'T27', 'H8', 'T30', 'HEX', 'T35', 'M10', 'T4', 'M12', 'T40', 'M13', 'T45', 'M14',
-      'T47', 'M16', 'T5', 'M4', 'T50', 'M5', 'T55', 'M6', 'T6', 'M7', 'T60', 'M8', 'T7', 'M9', 'T70', 'Ph0',
-      'T8', 'Ph1', 'T9', 'Ph2', 'TT10', 'Ph3', 'TT15', 'Ph4', 'TT20', 'Pz0', 'TT25', 'Pz1', 'TT27', 'Pz2',
-      'TT30', 'Pz3', 'TT40', 'Pz4', 'TT45', 'R10', 'TT50', 'R12', 'TT55', 'R13', 'TT6', 'R14', 'TT60', 'R5',
-      'TT7', 'R6', 'TT70', 'R7', 'TT8', 'R8', 'TT9', 'S', 'TX', 'Sl', 'XZN', 'T10', 'T15', 'T20'
+      'H4', 'T25', 'H5', 'T27', 'H8', 'T30', 'HEX', 'T35', 'M10', 'T4', 'M12', 'T40', 'M13',
+      'T45', 'M14', 'T47', 'M16', 'T5', 'M4', 'T50', 'M5', 'T55', 'M6', 'T6', 'M7', 'T60',
+      'M8', 'T7', 'M9', 'T70', 'Ph0', 'T8', 'Ph1', 'T9', 'Ph2', 'TT10', 'Ph3', 'TT15', 'Ph4',
+      'TT20', 'Pz0', 'TT25', 'Pz1', 'TT27', 'Pz2', 'TT30', 'Pz3', 'TT40', 'Pz4', 'TT45',
+      'R10', 'TT50', 'R12', 'TT55', 'R13', 'TT6', 'R14', 'TT60', 'R5', 'TT7', 'R6', 'TT70',
+      'R7', 'TT8', 'R8', 'TT9', 'S', 'TX', 'Sl', 'XZN', 'T10', 'T15', 'T20'
   );
 
   Benchmark::cmpthese(-3, {
