@@ -165,7 +165,7 @@ only.
 ## SEE ALSO
 
 * [module on PrePAN](http://prepan.org/module/nYcMhBVby72)
-* coming soon on CPAN
+* [module on CPAN](http://search.cpan.org/dist/Sort-Naturally-XS/lib/Sort/Naturally/XS.pm)
 
 ## AUTHOR
 
