@@ -3,6 +3,7 @@ use warnings;
 use Test::More;
 use Encode;
 use Config;
+use List::Util qw/first/;
 use Sort::Naturally::XS qw/sorted/;
 
 my $locale_skip = {
@@ -68,23 +69,45 @@ SKIP: {
     skip(sprintf('Detect %s, not POSIX-conformant', $os_title), 4)
         if (defined($os_title));
 
-    my $ar_ru_local = [qw/и й е ё/];
-    my $ar_ru_local__expected = [qw/е ё и й/];
-    my $ar_ru_local__actual = sorted($ar_ru_local, locale => 'ru_RU.utf8');
-    ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU test');
+    my @locale_list = split(/[\r\n]+/, `locale -a`);
 
-    $ar_ru_local__expected = [reverse(@{$ar_ru_local__expected})];
-    $ar_ru_local__actual = sorted($ar_ru_local, locale => 'ru_RU.utf8', reverse => 1);
-    ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU reverse test');
+    SKIP: {
+        my $locale = 'ru_RU.utf8';
 
-    my $ar_en_local = ['a'..'c', 'A'..'C'];
-    my $ar_us_local__expected = [qw/a A b B c C/];
-    my $ar_us_local__actual = sorted($ar_en_local, locale => 'en_US.utf8');
-    ok(eq_array($ar_us_local__expected, $ar_us_local__actual), 'Locale US test');
+        skip(sprintf('%s not installed', $locale), 2) unless (first {$_ eq $locale} @locale_list);
 
-    my $ar_ca_local__expected = [qw/A a B b C c/];
-    my $ar_ca_local__actual = sorted($ar_en_local, locale => 'en_CA.utf8');
-    ok(eq_array($ar_ca_local__expected, $ar_ca_local__actual), 'Locale CA test');
+        my $ar_ru_local = [qw/и й е ё/];
+        my $ar_ru_local__expected = [qw/е ё и й/];
+        my $ar_ru_local__actual = sorted($ar_ru_local, locale => $locale);
+        ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU test');
+
+        $ar_ru_local__expected = [reverse(@{$ar_ru_local__expected})];
+        $ar_ru_local__actual = sorted($ar_ru_local, locale => 'ru_RU.utf8', reverse => 1);
+        ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU reverse test');
+    }
+
+    SKIP: {
+        my $locale = 'en_US.utf8';
+
+        skip(sprintf('%s not installed', $locale), 1) unless (first {$_ eq $locale} @locale_list);
+
+        my $ar_en_local = ['a'..'c', 'A'..'C'];
+        my $ar_us_local__expected = [qw/a A b B c C/];
+        my $ar_us_local__actual = sorted($ar_en_local, locale => $locale);
+        ok(eq_array($ar_us_local__expected, $ar_us_local__actual), 'Locale US test');
+    }
+
+    SKIP: {
+        my $locale = 'en_CA.utf8';
+
+        skip(sprintf('%s not installed', $locale), 1) unless (first {$_ eq $locale} @locale_list);
+
+        my $ar_en_local = ['a'..'c', 'A'..'C'];
+        my $ar_ca_local__expected = [qw/A a B b C c/];
+        my $ar_ca_local__actual = sorted($ar_en_local, locale => $locale);
+        ok(eq_array($ar_ca_local__expected, $ar_ca_local__actual), 'Locale CA test');
+    }
+
 }
 
 done_testing();
