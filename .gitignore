@@ -58,7 +58,7 @@ Build
 Build.bat
 .last_cover_stats
 Makefile
-/Makefile.old
+Makefile.old
 /MANIFEST.bak
 /META.yml
 /META.json

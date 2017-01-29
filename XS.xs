@@ -46,11 +46,6 @@ MODULE = Sort::Naturally::XS		PACKAGE = Sort::Naturally::XS
 
 INCLUDE: const-xs.inc
 
-TYPEMAP: <<END
-const char *    T_PV
-charArray *     T_ARRAY
-END
-
 int
 ncmp(arg_a, arg_b)
         const char *    arg_a
