@@ -11,7 +11,7 @@ WriteMakefile(
 	PREREQ_PM    => {}, # e.g., Module::Name => 1.1
 	($] >= 5.005                                ? ## Add these new keywords supported since 5.005
 		(ABSTRACT_FROM => 'lib/Sort/Naturally/XS.pm', # retrieve abstract from module
-			AUTHOR     => 'oper <oper@(none)>') : ()),
+			AUTHOR     => 'Sergey Yurzin <jurzin.s@gmail.com>') : ()),
 	LIBS         => is_mac_os() ? '-L/usr/local/opt/icu4c/lib' : '',
 	DEFINE       => '', # e.g., '-DHAVE_SOMETHING'
 	INC          => '-I. ' . (is_mac_os() ? '-I/usr/local/opt/icu4c/include' : ''),

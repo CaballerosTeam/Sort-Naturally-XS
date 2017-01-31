@@ -5,9 +5,8 @@ use ExtUtils::MakeMaker;
 $Verbose = 1;
 
 WriteMakefile(
-	NAME    => 'Sort::Naturally::XS::ncmp',
-	SKIP    => [ qw(all static static_lib dynamic dynamic_lib) ],
-	clean   => { 'FILES' => 'libnsort$(LIB_EXT)' },
+	NAME  => 'Sort::Naturally::XS::nsort',
+	clean => {'FILES' => 'libnsort$(LIB_EXT)'},
 	LIBS    => is_mac_os() ? '-L/usr/local/opt/icu4c/lib' : '',
 	INC     => '-I. ' . (is_mac_os() ? '-I/usr/local/opt/icu4c/include' : ''),
 );

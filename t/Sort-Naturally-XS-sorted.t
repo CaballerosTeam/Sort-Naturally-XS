@@ -2,7 +2,14 @@ use strict;
 use warnings;
 use Test::More;
 use Encode;
+use Config;
+use List::Util qw/first/;
 use Sort::Naturally::XS qw/sorted/;
+
+my $locale_skip = {
+    freebsd => 'FreeBSD',
+    darwin => 'MacOS',
+};
 
 my $ar_wo_digit = [reverse(map $_ x 2, ('a'..'z'))];
 my $ar_wo_digit__expected = [reverse(@{$ar_wo_digit})];
@@ -55,24 +62,51 @@ ok(eq_array($ar_mixed_simple_reverse__expected, sorted($ar_mixed_simple, reverse
 ok(eq_array($ar_mixed_simple_copy, $ar_mixed_simple), 'Original array not changed after descending sort');
 
 # locale test
-my $ar_ru_local = [qw/и й е ё/];
-my $ar_ru_local__expected = [qw/е ё и й/];
-my $ar_ru_local__actual = sorted($ar_ru_local, locale => 'ru-RU-u-va-posix');
-ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU test');
+SKIP: {
+    my $os_name = $Config{osname};
+    my $os_title = $locale_skip->{$os_name};
 
-$ar_ru_local__expected = [reverse(@{$ar_ru_local__expected})];
-$ar_ru_local__actual = sorted($ar_ru_local, locale => 'ru-RU-u-va-posix', reverse => 1);
-ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU reverse test');
+    skip(sprintf('Detect %s, not POSIX-conformant', $os_title), 4)
+        if (defined($os_title));
 
-my $ar_en_local = ['a'..'c', 'A'..'C'];
-#my $ar_us_local__expected = [qw/a A b B c C/];
-my $ar_us_local__expected = [qw/A B C a b c/];
-my $ar_us_local__actual = sorted($ar_en_local, locale => 'en-US-u-va-posix');
-ok(eq_array($ar_us_local__expected, $ar_us_local__actual), 'Locale US test');
+    my @locale_list = split(/[\r\n]+/, `locale -a`);
 
-#my $ar_ca_local__expected = [qw/A a B b C c/];
-my $ar_ca_local__expected = [qw/a A b B c C/];
-my $ar_ca_local__actual = sorted($ar_en_local, locale => 'en-CA-u-va-posix');
-ok(eq_array($ar_ca_local__expected, $ar_ca_local__actual), 'Locale CA test');
+    SKIP: {
+        my $locale = 'ru-RU-u-va-posix';
+
+        skip(sprintf('%s not installed', $locale), 2) unless (first {$_ eq $locale} @locale_list);
+
+        my $ar_ru_local = [qw/и й е ё/];
+        my $ar_ru_local__expected = [qw/е ё и й/];
+        my $ar_ru_local__actual = sorted($ar_ru_local, locale => $locale);
+        ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU test');
+
+        $ar_ru_local__expected = [reverse(@{$ar_ru_local__expected})];
+        $ar_ru_local__actual = sorted($ar_ru_local, locale => $locale, reverse => 1);
+        ok(eq_array($ar_ru_local__expected, $ar_ru_local__actual), 'Locale RU reverse test');
+    }
+
+    SKIP: {
+        my $locale = 'en-US-u-va-posix';
+
+        skip(sprintf('%s not installed', $locale), 1) unless (first {$_ eq $locale} @locale_list);
+
+        my $ar_en_local = ['a'..'c', 'A'..'C'];
+        my $ar_us_local__expected = [qw/A B C a b c/];
+        my $ar_us_local__actual = sorted($ar_en_local, locale => $locale);
+        ok(eq_array($ar_us_local__expected, $ar_us_local__actual), 'Locale US test');
+    }
+
+    SKIP: {
+        my $locale = 'en-CA-u-va-posix';
+
+        skip(sprintf('%s not installed', $locale), 1) unless (first {$_ eq $locale} @locale_list);
+
+        my $ar_en_local = ['a'..'c', 'A'..'C'];
+        my $ar_ca_local__expected = [qw/a A b B c C/];
+        my $ar_ca_local__actual = sorted($ar_en_local, locale => $locale);
+        ok(eq_array($ar_ca_local__expected, $ar_ca_local__actual), 'Locale CA test');
+    }
+}
 
 done_testing();
