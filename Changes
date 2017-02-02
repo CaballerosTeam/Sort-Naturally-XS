@@ -42,3 +42,6 @@ Revision history for Perl extension Sort::Naturally::XS.
 
 0.7.5 Sun Jan 29 23:47:00 2017
     - fix make on BSD systems
+
+0.8.0 Tue Jan 31 22:08:00 2017
+    - icu support implemented, cross-platform locale aware sort available
