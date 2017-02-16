@@ -20,10 +20,10 @@ my $ar_digit__expected = [reverse(@{$ar_digit})];
 ok(eq_array($ar_digit__expected, sorted($ar_digit)), 'Digit only sort');
 
 # CCXX-1 test
-my $ar_mostly_digit = [qw/1100х1400 2000х2200 1400х2050 2200х2400 1500х2000 2200х2600 1720х2050 2400х2400 1800х2200
-    2400х2600/];
-my $ar_mostly_digit__expected = [qw/1100х1400 1400х2050 1500х2000 1720х2050 1800х2200 2000х2200 2200х2400 2200х2600
-    2400х2400 2400х2600/];
+my $ar_mostly_digit = [qw/1100x1400 2000x2200 1400x2050 2200x2400 1500x2000 2200x2600 1720x2050 2400x2400 1800x2200
+    2400x2600/];
+my $ar_mostly_digit__expected = [qw/1100x1400 1400x2050 1500x2000 1720x2050 1800x2200 2000x2200 2200x2400 2200x2600
+    2400x2400 2400x2600/];
 ok(eq_array($ar_mostly_digit__expected, sorted($ar_mostly_digit)), 'Dimensions sort');
 
 my $ar_mixed_simple = [qw/test21 test20 test10 test11 test2 test1/];
@@ -73,6 +73,7 @@ SKIP: {
 
     SKIP: {
         my $locale = 'ru_RU.utf8';
+        # TODO: use regexp to match ru_RU.UTF-8
 
         skip(sprintf('%s not installed', $locale), 2) unless (first {$_ eq $locale} @locale_list);
 

@@ -74,6 +74,7 @@ nytprof.out
 *.ko
 *.obj
 *.elf
+XS.c
 
 # Precompiled Headers
 *.gch
