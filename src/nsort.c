@@ -7,6 +7,7 @@
 
 char *get_next_chunk(const char *, int *, bool *);
 bool isDigit(const char);
+bool isAlpha(const char);
 
 int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
     int len_a = strlen(a);
@@ -17,13 +18,23 @@ int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
     bool is_digit_b = NULL;
     bool is_last_chunk_a_digit = NULL;
     bool is_last_chunk_b_digit = NULL;
+    bool is_fist_char_a_alpha = isAlpha(a[0]);
+    bool is_fist_char_b_alpha = isAlpha(b[0]);
     char *chunk_a;
     char *chunk_b;
     int chunk_a_int;
     int chunk_b_int;
     int result = 0;
 
-// TODO: try to use isascii for preprocessor
+    if (!use_locale && is_fist_char_a_alpha && is_fist_char_b_alpha) {
+        offset_a = 1;
+        offset_b = 1;
+        result = (a[0] < b[0]) ? -1 : (a[0] > b[0]);
+    } else if (is_fist_char_a_alpha && isDigit(b[0])) {
+        result = 1;
+    } else if (isDigit(a[0]) && is_fist_char_b_alpha) {
+        result = -1;
+    }
 
     if (result == 0) {
         while (offset_a != len_a && offset_b != len_b) {
@@ -97,4 +108,8 @@ char *get_next_chunk(const char *raw, int *offset, bool *is_digit) {
 
 bool isDigit(const char c) {
     return (c >= '0' && c <= '9');
+}
+
+bool isAlpha(const char c) {
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
