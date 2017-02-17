@@ -4,12 +4,20 @@ Sort::Naturally::XS - Perl extension for human-friendly ("natural") sort order
 
 ## INSTALL
 
-To install this module type the following:
+To install this module type the following, for Unix-like OS:
 ```
    perl Makefile.PL
    make
    make test
    make install
+```
+
+or for Windows:
+```
+   perl Makefile.PL
+   dmake
+   dmake test
+   dmake install
 ```
 
 ## SYNOPSIS
@@ -161,6 +169,7 @@ before lower case letters, digits always come before letters.
 * Due to a significant strain it is not recommended for sorting lists consisting of letters or digits only.
 * Due to the complexity of a cross-platform support, a locale aware sorting is guaranteed on Unix-like operating systems
 only.
+* Windows support added in ver. 0.7.6
 
 ## SEE ALSO
 

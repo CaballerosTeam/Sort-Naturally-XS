@@ -223,6 +223,7 @@ before lower case letters, digits always come before letters.
 =item Due to the complexity of a cross-platform support, a locale aware sorting is guaranteed on Unix-like operating
 systems only.
 
+=item Windows support added in ver. 0.7.6
 
 =back
 
