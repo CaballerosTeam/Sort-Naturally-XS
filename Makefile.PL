@@ -20,6 +20,22 @@ WriteMakefile(
 	MYEXTLIB     => 'src/libnsort$(LIB_EXT)',
 	OPTIMIZE     => '-O3',
 	LDDLFLAGS    => $ExtUtils::MakeMaker::Config::Config{lddlflags}.' `pkg-config --libs --cflags icu-uc icu-io`',
+	META_MERGE   => {
+		'meta-spec' => {
+			version => 2
+		},
+		resources   => {
+			repository => {
+				type => 'git',
+				url  => 'https://github.com/CaballerosTeam/Sort-Naturally-XS.git',
+				web  => 'https://github.com/CaballerosTeam/Sort-Naturally-XS',
+			},
+			bugtracker => {
+				web    => 'https://github.com/CaballerosTeam/Sort-Naturally-XS/issues',
+				mailto => 'jurzin.s@gmail.com',
+			},
+		},
+	},
 );
 if (eval {
 	require ExtUtils::Constant;

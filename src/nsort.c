@@ -9,6 +9,8 @@
 #include "nsort.h"
 
 char *get_next_chunk(const char *, int *, bool *);
+bool isDigit(const char);
+bool isAlpha(const char);
 
 int _ncmp(const char *a, const char *b, int reverse, UCollator *collator) {
     int len_a = strlen(a);
@@ -19,8 +21,8 @@ int _ncmp(const char *a, const char *b, int reverse, UCollator *collator) {
     bool is_digit_b = NULL;
     bool is_last_chunk_a_digit = NULL;
     bool is_last_chunk_b_digit = NULL;
-    bool is_fist_char_a_alpha = isalpha(a[0]);
-    bool is_fist_char_b_alpha = isalpha(b[0]);
+    bool is_fist_char_a_alpha = isAlpha(a[0]);
+    bool is_fist_char_b_alpha = isAlpha(b[0]);
     char *chunk_a;
     char *chunk_b;
     int chunk_a_int;
@@ -33,9 +35,9 @@ int _ncmp(const char *a, const char *b, int reverse, UCollator *collator) {
         offset_a = 1;
         offset_b = 1;
         result = (a[0] < b[0]) ? -1 : (a[0] > b[0]);
-    } else if (is_fist_char_a_alpha && isdigit(b[0])) {
+    } else if (is_fist_char_a_alpha && isDigit(b[0])) {
         result = 1;
-    } else if (isdigit(a[0]) && is_fist_char_b_alpha) {
+    } else if (isDigit(a[0]) && is_fist_char_b_alpha) {
         result = -1;
     }
 
@@ -90,14 +92,16 @@ int _ncmp(const char *a, const char *b, int reverse, UCollator *collator) {
 }
 
 char *get_next_chunk(const char *raw, int *offset, bool *is_digit) {
-    int len = 0;
     if (*offset == 0) {
-        *is_digit = isdigit(raw[*offset]);
+        *is_digit = isDigit(raw[0]);
     }
+
     int i;
+    int len = 0;
     int raw_len = strlen(raw);
     for (i = *offset; i < raw_len; i++) {
-        bool c_is_digit = isdigit(raw[i]);
+        bool c_is_digit = isDigit(raw[i]);
+
         if (c_is_digit != *is_digit) {
             *is_digit = c_is_digit;
             len = i - *offset;
@@ -107,9 +111,19 @@ char *get_next_chunk(const char *raw, int *offset, bool *is_digit) {
             *is_digit = !*is_digit;
         }
     }
+
     char *chunk = malloc((len + 1) * sizeof(char));
     strncpy(chunk, raw + *offset, len);
     chunk[len] = '\0';
     *offset += len;
+
     return chunk;
+}
+
+bool isDigit(const char c) {
+    return (c >= '0' && c <= '9');
+}
+
+bool isAlpha(const char c) {
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }

@@ -17,32 +17,32 @@ UCollator *collator = 0;
 static I32
 S_sv_ncmp(pTHX_ SV *a, SV *b)
 {
-    const char *ia = (const char *) SvPVX(a);
-    const char *ib = (const char *) SvPVX(b);
+    const char *ia = (const char *) SvPVbyte_nolen(a);
+    const char *ib = (const char *) SvPVbyte_nolen(b);
     return _ncmp(ia, ib, 0, collator);
 }
 
 static I32
 S_sv_ncmp_reverse(pTHX_ SV *a, SV *b)
 {
-    const char *ia = (const char *) SvPVX(a);
-    const char *ib = (const char *) SvPVX(b);
+    const char *ia = (const char *) SvPVbyte_nolen(a);
+    const char *ib = (const char *) SvPVbyte_nolen(b);
     return _ncmp(ia, ib, 1, collator);
 }
 
 static I32
 S_sv_ncoll(pTHX_ SV *a, SV *b)
 {
-    const char *ia = (const char *) SvPVX(a);
-    const char *ib = (const char *) SvPVX(b);
+    const char *ia = (const char *) SvPVbyte_nolen(a);
+    const char *ib = (const char *) SvPVbyte_nolen(b);
     return _ncmp(ia, ib, 0, collator);
 }
 
 static I32
 S_sv_ncoll_reverse(pTHX_ SV *a, SV *b)
 {
-    const char *ia = (const char *) SvPVX(a);
-    const char *ib = (const char *) SvPVX(b);
+    const char *ia = (const char *) SvPVbyte_nolen(a);
+    const char *ib = (const char *) SvPVbyte_nolen(b);
     return _ncmp(ia, ib, 1, collator);
 }
 
