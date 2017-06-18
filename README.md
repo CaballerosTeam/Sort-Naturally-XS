@@ -1,3 +1,7 @@
+# Sort-Naturally-XS
+
+[![Build Status](https://travis-ci.org/CaballerosTeam/Sort-Naturally-XS.svg?branch=master)](https://travis-ci.org/CaballerosTeam/Sort-Naturally-XS)
+
 ## NAME
 
 Sort::Naturally::XS - Perl extension for human-friendly ("natural") sort order
