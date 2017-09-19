@@ -31,14 +31,12 @@ int _ncmp(const char *a, const char *b, int reverse, int use_locale) {
     }
 
     if (result == 0) {
-        char *chunk_a;
-        char *chunk_b;
         int chunk_a_int;
         int chunk_b_int;
 
         while (offset_a != len_a && offset_b != len_b) {
-            chunk_a = get_next_chunk(a, &offset_a, &is_digit_a);
-            chunk_b = get_next_chunk(b, &offset_b, &is_digit_b);
+            char *chunk_a = get_next_chunk(a, &offset_a, &is_digit_a);
+            char *chunk_b = get_next_chunk(b, &offset_b, &is_digit_b);
             bool is_last_chunk_a_digit = !is_digit_a;
             bool is_last_chunk_b_digit = !is_digit_b;
 
