@@ -60,7 +60,7 @@ nsort(...)
     PROTOTYPE: @
     CODE:
         if (!items) {
-            XSRETURN_UNDEF;
+            XSRETURN(0);
         }
         AV * array = newAV();
         int i;
