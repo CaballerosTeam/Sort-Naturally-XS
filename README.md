@@ -1,7 +1,8 @@
 # Sort-Naturally-XS
 
 [![Build Status](https://travis-ci.org/CaballerosTeam/Sort-Naturally-XS.svg?branch=master)](
-https://travis-ci.org/CaballerosTeam/Sort-Naturally-XS)
+https://travis-ci.org/CaballerosTeam/Sort-Naturally-XS) [![Coverage Status](https://coveralls.io/repos/github/CaballerosTeam/Sort-Naturally-XS/badge.svg?branch=master)](
+https://coveralls.io/github/CaballerosTeam/Sort-Naturally-XS?branch=master)
 
 ## NAME
 
