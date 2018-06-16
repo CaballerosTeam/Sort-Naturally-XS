@@ -14,7 +14,7 @@ our @EXPORT = qw/ncmp nsort/;
 
 our @EXPORT_OK = qw/sorted/;
 
-our $VERSION = '0.7.8';
+our $VERSION = '0.7.9';
 
 require XSLoader;
 XSLoader::load('Sort::Naturally::XS', $VERSION);
